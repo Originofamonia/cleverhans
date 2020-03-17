@@ -22,7 +22,7 @@ class ModelAllConvolutional(NoRefModel):
         self.input_shape = input_shape
 
         # Do a dummy run of fprop to create the variables from the start
-        self.fprop(tf.placeholder(tf.float32, [32] + input_shape))
+        self.fprop(tf.compat.v1.placeholder(tf.float32, [32] + input_shape))
         # Put a reference to the params in self so that the params get pickled
         self.params = self.get_params()
 
@@ -39,9 +39,9 @@ class ModelAllConvolutional(NoRefModel):
             log_resolution = int(round(
                 math.log(self.input_shape[0]) / math.log(2)))
             for scale in range(log_resolution - 2):
-                y = tf.keras.layers.Conv2D(y, self.nb_filters << scale, **conv_args)
-                y = tf.keras.layers.Conv2D(y, self.nb_filters << (scale + 1), **conv_args)
-                y = tf.keras.layers.AveragePooling2D(y, 2, 2)
+                y = tf.layers.conv2d(y, self.nb_filters << scale, **conv_args)
+                y = tf.layers.conv2d(y, self.nb_filters << (scale + 1), **conv_args)
+                y = tf.layers.average_pooling2d(y, 2, 2)
             y = tf.layers.conv2d(y, self.nb_classes, **conv_args)
             logits = tf.reduce_mean(y, [1, 2])
             return {self.O_LOGITS: logits,

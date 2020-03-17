@@ -133,8 +133,8 @@ def train(sess, loss, x_train, y_train,
     devices = infer_devices(devices)
     for device in devices:
         with tf.device(device):
-            x = tf.placeholder(x_train.dtype, (None,) + x_train.shape[1:])
-            y = tf.placeholder(y_train.dtype, (None,) + y_train.shape[1:])
+            x = tf.compat.v1.placeholder(x_train.dtype, (None,) + x_train.shape[1:])
+            y = tf.compat.v1.placeholder(y_train.dtype, (None,) + y_train.shape[1:])
             xs.append(x)
             ys.append(y)
 
@@ -155,11 +155,11 @@ def train(sess, loss, x_train, y_train,
 
     grad = avg_grads(grads)
     # Trigger update operations within the default graph (such as batch_norm).
-    with tf.control_dependencies(tf.get_collection(tf.GraphKeys.UPDATE_OPS)):
+    with tf.control_dependencies(tf.compat.v1.get_collection(tf.compat.v1.GraphKeys.UPDATE_OPS)):
         train_step = optimizer.apply_gradients(grad)
 
-    epoch_tf = tf.placeholder(tf.int32, [])
-    batch_tf = tf.placeholder(tf.int32, [])
+    epoch_tf = tf.compat.v1.placeholder(tf.int32, [])
+    batch_tf = tf.compat.v1.placeholder(tf.int32, [])
 
     if use_ema:
         if callable(ema_decay):
