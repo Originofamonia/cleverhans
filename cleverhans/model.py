@@ -66,7 +66,7 @@ class Model(object):
         if self.O_LOGITS in outputs:
             return outputs[self.O_LOGITS]
         raise NotImplementedError(str(type(self)) + "must implement `get_logits`"
-                                                    " or must define a " + self.O_LOGITS +
+                                  " or must define a " + self.O_LOGITS +
                                   " output in `fprop`")
 
     def get_predicted_class(self, x, **kwargs):

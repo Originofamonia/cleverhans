@@ -39,7 +39,7 @@ from cleverhans import utils
 
 class Dataset(object):
     """Abstract base class representing a dataset.
-  """
+    """
 
     # The number of classes in the dataset. Should be specified by subclasses.
     NB_CLASSES = None
@@ -53,14 +53,14 @@ class Dataset(object):
 
     def get_factory(self):
         """Returns a picklable callable that recreates the dataset.
-    """
+        """
 
         return Factory(type(self), self.kwargs)
 
     def get_set(self, which_set):
         """Returns the training set or test set as an (x_data, y_data) tuple.
-    :param which_set: 'train' or 'test'
-    """
+        :param which_set: 'train' or 'test'
+        """
         return (getattr(self, 'x_' + which_set),
                 getattr(self, 'y_' + which_set))
 
@@ -155,8 +155,8 @@ class CIFAR10(Dataset):
 
 class Factory(object):
     """
-  A callable that creates an object of the specified type and configuration.
-  """
+    A callable that creates an object of the specified type and configuration.
+    """
 
     def __init__(self, cls, kwargs):
         self.cls = cls
@@ -164,7 +164,7 @@ class Factory(object):
 
     def __call__(self):
         """Returns the created object.
-    """
+        """
         return self.cls(**self.kwargs)
 
 

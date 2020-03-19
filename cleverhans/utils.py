@@ -25,8 +25,8 @@ CLEVERHANS_ROOT = os.path.dirname(os.path.dirname(__file__))
 
 class _ArgsWrapper(object):
     """
-  Wrapper that allows attribute access to dictionaries
-  """
+    Wrapper that allows attribute access to dictionaries
+    """
 
     def __init__(self, args):
         if not isinstance(args, dict):

@@ -277,7 +277,7 @@ class Attack(object):
         else:
             preds = self.model.get_probs(x)
             preds_max = reduce_max(preds, 1, keepdims=True)
-            original_predictions = tf.cast(tf.equal(preds, preds_max))
+            original_predictions = tf.cast(tf.equal(preds, preds_max), dtype=tf.float32)
             labels = tf.stop_gradient(original_predictions)
             del preds
         if isinstance(labels, np.ndarray):

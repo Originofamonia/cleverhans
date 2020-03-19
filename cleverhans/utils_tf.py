@@ -27,14 +27,14 @@ _logger.setLevel(logging.INFO)
 
 def model_loss(y, model, mean=True):
     """
-  Define loss of TF graph
-  :param y: correct labels
-  :param model: output of the model
-  :param mean: boolean indicating whether should return mean of loss
+    Define loss of TF graph
+    :param y: correct labels
+    :param model: output of the model
+    :param mean: boolean indicating whether should return mean of loss
                or vector of losses for each input of the batch
-  :return: return mean of loss if True, otherwise return vector with per
+    :return: return mean of loss if True, otherwise return vector with per
            sample loss
-  """
+    """
     warnings.warn("This function is deprecated and will be removed on or after"
                   " 2019-04-05. Switch to cleverhans.train.train.")
     op = model.op
@@ -52,11 +52,11 @@ def model_loss(y, model, mean=True):
 
 def initialize_uninitialized_global_variables(sess):
     """
-  Only initializes the variables of a TensorFlow session that were not
-  already initialized.
-  :param sess: the TensorFlow session
-  :return:
-  """
+    Only initializes the variables of a TensorFlow session that were not
+    already initialized.
+    :param sess: the TensorFlow session
+    :return:
+    """
     # List all global variables
     global_vars = tf.compat.v1.global_variables()
 
@@ -77,38 +77,38 @@ def train(sess, loss, x, y, X_train, Y_train, save=False,
           init_all=False, evaluate=None, feed=None, args=None,
           rng=None, var_list=None, fprop_args=None, optimizer=None):
     """
-  Train a TF graph.
-  This function is deprecated. Prefer cleverhans.train.train when possible.
-  cleverhans.train.train supports multiple GPUs but this function is still
-  needed to support legacy models that do not support calling fprop more
-  than once.
+    Train a TF graph.
+    This function is deprecated. Prefer cleverhans.train.train when possible.
+    cleverhans.train.train supports multiple GPUs but this function is still
+    needed to support legacy models that do not support calling fprop more
+    than once.
 
-  :param sess: TF session to use when training the graph
-  :param loss: tensor, the model training loss.
-  :param x: input placeholder
-  :param y: output placeholder (for labels)
-  :param X_train: numpy array with training inputs
-  :param Y_train: numpy array with training outputs
-  :param save: boolean controlling the save operation
-  :param init_all: (boolean) If set to true, all TF variables in the session
+    :param sess: TF session to use when training the graph
+    :param loss: tensor, the model training loss.
+    :param x: input placeholder
+    :param y: output placeholder (for labels)
+    :param X_train: numpy array with training inputs
+    :param Y_train: numpy array with training outputs
+    :param save: boolean controlling the save operation
+    :param init_all: (boolean) If set to true, all TF variables in the session
                    are (re)initialized, otherwise only previously
                    uninitialized variables are initialized before training.
-  :param evaluate: function that is run after each training iteration
+    :param evaluate: function that is run after each training iteration
                    (typically to display the test/validation accuracy).
-  :param feed: An optional dictionary that is appended to the feeding
+    :param feed: An optional dictionary that is appended to the feeding
                dictionary before the session runs. Can be used to feed
                the learning phase of a Keras model for instance.
-  :param args: dict or argparse `Namespace` object.
+    :param args: dict or argparse `Namespace` object.
                Should contain `nb_epochs`, `learning_rate`,
                `batch_size`
                If save is True, should also contain 'train_dir'
                and 'filename'
-  :param rng: Instance of numpy.random.RandomState
-  :param var_list: Optional list of parameters to train.
-  :param fprop_args: dict, extra arguments to pass to fprop (loss and model).
-  :param optimizer: Optimizer to be used for training
-  :return: True if model trained
-  """
+    :param rng: Instance of numpy.random.RandomState
+    :param var_list: Optional list of parameters to train.
+    :param fprop_args: dict, extra arguments to pass to fprop (loss and model).
+    :param optimizer: Optimizer to be used for training
+    :return: True if model trained
+    """
     warnings.warn("This function is deprecated and will be removed on or after"
                   " 2019-04-05. Switch to cleverhans.train.train.")
 
@@ -196,20 +196,20 @@ def train(sess, loss, x, y, X_train, Y_train, save=False,
 def model_eval(sess, x, y, predictions, X_test=None, Y_test=None,
                feed=None, args=None):
     """
-  Compute the accuracy of a TF model on some data
-  :param sess: TF session to use
-  :param x: input placeholder
-  :param y: output placeholder (for labels)
-  :param predictions: model output predictions
-  :param X_test: numpy array with training inputs
-  :param Y_test: numpy array with training outputs
-  :param feed: An optional dictionary that is appended to the feeding
+    Compute the accuracy of a TF model on some data
+    :param sess: TF session to use
+    :param x: input placeholder
+    :param y: output placeholder (for labels)
+    :param predictions: model output predictions
+    :param X_test: numpy array with training inputs
+    :param Y_test: numpy array with training outputs
+    :param feed: An optional dictionary that is appended to the feeding
            dictionary before the session runs. Can be used to feed
            the learning phase of a Keras model for instance.
-  :param args: dict or argparse `Namespace` object.
+    :param args: dict or argparse `Namespace` object.
                Should contain `batch_size`
-  :return: a float with the accuracy value
-  """
+    :return: a float with the accuracy value
+    """
     global _model_eval_cache
     args = _ArgsWrapper(args or {})
 
@@ -274,12 +274,11 @@ _model_eval_cache = {}
 
 def tf_model_load(sess, file_path=None):
     """
-
-  :param sess: the session object to restore
-  :param file_path: path to the restored session, if None is
+    :param sess: the session object to restore
+    :param file_path: path to the restored session, if None is
                     taken from FLAGS.train_dir and FLAGS.filename
-  :return:
-  """
+    :return:
+    """
     with sess.as_default():
         saver = tf.train.Saver()
         if file_path is None:
@@ -292,8 +291,8 @@ def tf_model_load(sess, file_path=None):
 
 def batch_eval(*args, **kwargs):
     """
-  Wrapper around deprecated function.
-  """
+    Wrapper around deprecated function.
+    """
     # Inside function to avoid circular import
     from cleverhans.evaluation import batch_eval as new_batch_eval
     warnings.warn("batch_eval has moved to cleverhans.evaluation. "
@@ -304,16 +303,16 @@ def batch_eval(*args, **kwargs):
 
 def model_argmax(sess, x, predictions, samples, feed=None):
     """
-  Helper function that computes the current class prediction
-  :param sess: TF session
-  :param x: the input placeholder
-  :param predictions: the model's symbolic output
-  :param samples: numpy array with input samples (dims must match x)
-  :param feed: An optional dictionary that is appended to the feeding
+    Helper function that computes the current class prediction
+    :param sess: TF session
+    :param x: the input placeholder
+    :param predictions: the model's symbolic output
+    :param samples: numpy array with input samples (dims must match x)
+    :param feed: An optional dictionary that is appended to the feeding
            dictionary before the session runs. Can be used to feed
            the learning phase of a Keras model for instance.
-  :return: the argmax output of predictions, i.e. the current predicted class
-  """
+    :return: the argmax output of predictions, i.e. the current predicted class
+    """
     feed_dict = {x: samples}
     if feed is not None:
         feed_dict.update(feed)
@@ -327,11 +326,11 @@ def model_argmax(sess, x, predictions, samples, feed=None):
 
 def l2_batch_normalize(x, epsilon=1e-12, scope=None):
     """
-  Helper function to normalize a batch of vectors.
-  :param x: the input placeholder
-  :param epsilon: stabilizes division
-  :return: the batch of l2 normalized vector
-  """
+    Helper function to normalize a batch of vectors.
+    :param x: the input placeholder
+    :param epsilon: stabilizes division
+    :return: the batch of l2 normalized vector
+    """
     with tf.name_scope(scope, "l2_batch_normalize") as name_scope:
         x_shape = tf.shape(x)
         x = tf.contrib.layers.flatten(x)
@@ -345,7 +344,7 @@ def l2_batch_normalize(x, epsilon=1e-12, scope=None):
 def kl_with_logits(p_logits, q_logits, scope=None,
                    loss_collection=tf.compat.v1.GraphKeys.REGULARIZATION_LOSSES):
     """Helper function to compute kl-divergence KL(p || q)
-  """
+    """
     with tf.name_scope(scope, "kl_divergence") as name:
         p = tf.nn.softmax(p_logits)
         p_log = tf.nn.log_softmax(p_logits)
@@ -358,12 +357,12 @@ def kl_with_logits(p_logits, q_logits, scope=None,
 
 def clip_eta(eta, ord, eps):
     """
-  Helper function to clip the perturbation to epsilon norm ball.
-  :param eta: A tensor with the current perturbation.
-  :param ord: Order of the norm (mimics Numpy).
+    Helper function to clip the perturbation to epsilon norm ball.
+    :param eta: A tensor with the current perturbation.
+    :param ord: Order of the norm (mimics Numpy).
               Possible values: np.inf, 1 or 2.
-  :param eps: Epsilon, bound of the perturbation.
-  """
+    :param eps: Epsilon, bound of the perturbation.
+    """
 
     # Clipping perturbation eta to self.ord norm ball
     if ord not in [np.inf, 1, 2]:
@@ -420,13 +419,13 @@ def clip_eta(eta, ord, eps):
 
 def zero_out_clipped_grads(grad, x, clip_min, clip_max):
     """
-  Helper function to erase entries in the gradient where the update would be
-  clipped.
-  :param grad: The gradient
-  :param x: The current input
-  :param clip_min: Minimum input component value
-  :param clip_max: Maximum input component value
-  """
+    Helper function to erase entries in the gradient where the update would be
+    clipped.
+    :param grad: The gradient
+    :param x: The current input
+    :param clip_min: Minimum input component value
+    :param clip_max: Maximum input component value
+    """
     signed_grad = tf.sign(grad)
 
     # Find input components that lie at the boundary of the input range, and
@@ -443,17 +442,17 @@ def zero_out_clipped_grads(grad, x, clip_min, clip_max):
 
 def random_exponential(shape, rate=1.0, dtype=tf.float32, seed=None):
     """
-  Helper function to sample from the exponential distribution, which is not
-  included in core TensorFlow.
-  """
+    Helper function to sample from the exponential distribution, which is not
+    included in core TensorFlow.
+    """
     return tf.random_gamma(shape, alpha=1, beta=1. / rate, dtype=dtype, seed=seed)
 
 
 def random_laplace(shape, loc=0.0, scale=1.0, dtype=tf.float32, seed=None):
     """
-  Helper function to sample from the Laplace distribution, which is not
-  included in core TensorFlow.
-  """
+    Helper function to sample from the Laplace distribution, which is not
+    included in core TensorFlow.
+    """
     z1 = random_exponential(shape, loc, dtype=dtype, seed=seed)
     z2 = random_exponential(shape, scale, dtype=dtype, seed=seed)
     return z1 - z2
@@ -461,16 +460,16 @@ def random_laplace(shape, loc=0.0, scale=1.0, dtype=tf.float32, seed=None):
 
 def random_lp_vector(shape, ord, eps, dtype=tf.float32, seed=None):
     """
-  Helper function to generate uniformly random vectors from a norm ball of
-  radius epsilon.
-  :param shape: Output shape of the random sample. The shape is expected to be
+    Helper function to generate uniformly random vectors from a norm ball of
+    radius epsilon.
+    :param shape: Output shape of the random sample. The shape is expected to be
                 of the form `(n, d1, d2, ..., dn)` where `n` is the number of
                 i.i.d. samples that will be drawn from a norm ball of dimension
                 `d1*d1*...*dn`.
-  :param ord: Order of the norm (mimics Numpy).
+    :param ord: Order of the norm (mimics Numpy).
               Possible values: np.inf, 1 or 2.
-  :param eps: Epsilon, radius of the norm ball.
-  """
+    :param eps: Epsilon, radius of the norm ball.
+    """
     if ord not in [np.inf, 1, 2]:
         raise ValueError('ord must be np.inf, 1, or 2.')
 
@@ -510,33 +509,33 @@ def model_train(sess, x, y, predictions, X_train, Y_train, save=False,
                 predictions_adv=None, init_all=True, evaluate=None,
                 feed=None, args=None, rng=None, var_list=None):
     """
-  Train a TF graph
-  :param sess: TF session to use when training the graph
-  :param x: input placeholder
-  :param y: output placeholder (for labels)
-  :param predictions: model output predictions
-  :param X_train: numpy array with training inputs
-  :param Y_train: numpy array with training outputs
-  :param save: boolean controlling the save operation
-  :param predictions_adv: if set with the adversarial example tensor,
+    Train a TF graph
+    :param sess: TF session to use when training the graph
+    :param x: input placeholder
+    :param y: output placeholder (for labels)
+    :param predictions: model output predictions
+    :param X_train: numpy array with training inputs
+    :param Y_train: numpy array with training outputs
+    :param save: boolean controlling the save operation
+    :param predictions_adv: if set with the adversarial example tensor,
                           will run adversarial training
-  :param init_all: (boolean) If set to true, all TF variables in the session
+    :param init_all: (boolean) If set to true, all TF variables in the session
                    are (re)initialized, otherwise only previously
                    uninitialized variables are initialized before training.
-  :param evaluate: function that is run after each training iteration
+    :param evaluate: function that is run after each training iteration
                    (typically to display the test/validation accuracy).
-  :param feed: An optional dictionary that is appended to the feeding
+    :param feed: An optional dictionary that is appended to the feeding
                dictionary before the session runs. Can be used to feed
                the learning phase of a Keras model for instance.
-  :param args: dict or argparse `Namespace` object.
+    :param args: dict or argparse `Namespace` object.
                Should contain `nb_epochs`, `learning_rate`,
                `batch_size`
                If save is True, should also contain 'train_dir'
                and 'filename'
-  :param rng: Instance of numpy.random.RandomState
-  :param var_list: Optional list of parameters to train.
-  :return: True if model trained
-  """
+    :param rng: Instance of numpy.random.RandomState
+    :param var_list: Optional list of parameters to train.
+    :return: True if model trained
+    """
     warnings.warn("This function is deprecated and will be removed on or after"
                   " 2019-04-05. Switch to cleverhans.train.train.")
     args = _ArgsWrapper(args or {})
@@ -615,14 +614,14 @@ def model_train(sess, x, y, predictions, X_train, Y_train, save=False,
 
 def infer_devices(devices=None):
     """
-  Returns the list of devices that multi-replica code should use.
-  :param devices: list of string device names, e.g. ["/GPU:0"]
+    Returns the list of devices that multi-replica code should use.
+    :param devices: list of string device names, e.g. ["/GPU:0"]
       If the user specifies this, `infer_devices` checks that it is
       valid, and then uses this user-specified list.
       If the user does not specify this, infer_devices uses:
           - All available GPUs, if there are any
           - CPU otherwise
-  """
+    """
     if devices is None:
         devices = get_available_gpus()
         if len(devices) == 0:
