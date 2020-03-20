@@ -63,7 +63,7 @@ X_train = (X_train / 255 - 0.5) * 2
 X_train = np.clip(X_train, -1, 1)
 
 X_test = np.float32(X_test)
-X_test = (X_train / 255 - 0.5) * 2
+X_test = (X_test / 255 - 0.5) * 2
 X_test = np.clip(X_test, -1, 1)
 
 print('X_train reshape:', X_train.shape)
